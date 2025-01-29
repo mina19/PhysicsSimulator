@@ -136,6 +136,16 @@ frames_dict["massless_rigid_rod"].update(
 # Create frames
 frames = []
 for i in range(n_points):
+    # Calculate the direction vector of the rod
+    dx = x1[i] - x2[i]
+    dy = -y1[i]  # since y2 is always 0
+
+    # Normalize and scale the vector
+    magnitude = np.sqrt(dx**2 + dy**2)
+    scale = 0.5  # Adjust this value to change arrow length
+    dx = scale * dx / magnitude
+    dy = scale * dy / magnitude
+
     frame_data = [
         # Static elements
         go.Scatter(x=[-b * 1.5, b * 1.5], y=[0, 0], **frames_dict["frictionless_rail"]),
@@ -146,7 +156,28 @@ for i in range(n_points):
         go.Scatter(x=[0], y=[y_cm[i]], **frames_dict["center_of_mass"]),
         go.Scatter(x=[x1[i], x2[i]], y=[y1[i], 0], **frames_dict["massless_rigid_rod"]),
     ]
-    frames.append(go.Frame(data=frame_data))
+    frames.append(
+        go.Frame(
+            data=frame_data,
+            layout=go.Layout(
+                annotations=[
+                    {
+                        "x": x1[i],  # Start at m1
+                        "y": y1[i],
+                        "xref": "x",
+                        "yref": "y",
+                        "text": "T",
+                        "showarrow": True,
+                        "arrowhead": 2,
+                        "arrowsize": 1,
+                        "arrowwidth": 2,
+                        "ax": dx * 100,  # Positive to point away from m1
+                        "ay": dy * 100,
+                    }
+                ]
+            ),
+        )
+    )
 
 
 # Create the figure
