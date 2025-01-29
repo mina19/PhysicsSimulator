@@ -146,6 +146,10 @@ for i in range(n_points):
     dx = scale * dx / magnitude
     dy = scale * dy / magnitude
 
+    # Calculate the start point of the arrow
+    start_x = x1[i] - dx 
+    start_y = y1[i] + dy
+
     frame_data = [
         # Static elements
         go.Scatter(x=[-b * 1.5, b * 1.5], y=[0, 0], **frames_dict["frictionless_rail"]),
@@ -162,8 +166,8 @@ for i in range(n_points):
             layout=go.Layout(
                 annotations=[
                     {
-                        "x": x1[i],  # Start at m1
-                        "y": y1[i],
+                        "x": start_x,  # Start point is away from m1
+                        "y": start_y,
                         "xref": "x",
                         "yref": "y",
                         "text": "T",
@@ -171,7 +175,7 @@ for i in range(n_points):
                         "arrowhead": 2,
                         "arrowsize": 1,
                         "arrowwidth": 2,
-                        "ax": dx * 100,  # Positive to point away from m1
+                        "ax": dx * 100,
                         "ay": dy * 100,
                     }
                 ]
