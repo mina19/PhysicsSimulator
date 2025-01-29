@@ -151,6 +151,10 @@ fig.update_layout(
         {
             "type": "buttons",
             "showactive": False,
+            "x": 0.02,
+            "xanchor": "left",
+            "y": 1.0,
+            "yanchor": "top",
             "buttons": [
                 {
                     "label": "Play",
@@ -158,9 +162,10 @@ fig.update_layout(
                     "args": [
                         None,
                         {
-                            "frame": {"duration": n_points / 2, "redraw": True},
+                            "frame": {"duration": 40, "redraw": False},
                             "fromcurrent": True,
-                            "transition": {"duration": 0},
+                            "mode": "immediate",
+                            "transition": {"duration": 0}
                         },
                     ],
                 },
@@ -172,13 +177,25 @@ fig.update_layout(
                         {
                             "frame": {"duration": 0, "redraw": False},
                             "mode": "immediate",
-                            "transition": {"duration": 0},
+                            "transition": {"duration": 0}
                         },
                     ],
                 },
             ],
         }
     ],
+    annotations=[
+        dict(
+            text="Created by Min-A Cho Zeno, PhD",
+            xref="x",  
+            yref="y",  
+            x=-b * 4,
+            y=-a * 1.1,
+            showarrow=False,
+            font=dict(size=12),
+            xanchor="left"
+        )
+    ]
 )
 
 fig.show()
