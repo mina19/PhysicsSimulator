@@ -142,21 +142,39 @@ for i in range(n_points):
 
     # Normalize and scale the vector
     magnitude = np.sqrt(dx**2 + dy**2)
-    scale = 0.5  # Adjust this value to change arrow length
+    scale = 0.5
     dx = scale * dx / magnitude
     dy = scale * dy / magnitude
 
     # Calculate the start point of the arrow
-    start_x = x1[i] - dx 
-    start_y = y1[i] + dy
+    start_x = x1[i] - 1.1 * dx 
+    start_y = y1[i] + 1.1 * dy
+
+    # Calculate angles for m1
+    angle_m1 = -np.degrees(t[i]) 
+    angle_m2 = -np.degrees(np.arctan2(-y1[i], x2[i] - x1[i]))
 
     frame_data = [
         # Static elements
         go.Scatter(x=[-b * 1.5, b * 1.5], y=[0, 0], **frames_dict["frictionless_rail"]),
         go.Scatter(**frames_dict["m1_path"]),
         # Dynamic elements
-        go.Scatter(x=[x1[i]], y=[y1[i]], **frames_dict["m1"]),
-        go.Scatter(x=[x2[i]], y=[0], **frames_dict["m2"]),
+        go.Scatter(
+            x=[x1[i]], 
+            y=[y1[i]], 
+            mode="markers+text",
+            marker={"symbol": "square", "size": 30, "color": "blue", "angle": [angle_m1]},
+            text=["m1"],
+            name="m1"
+        ),
+        go.Scatter(
+            x=[x2[i]], 
+            y=[0], 
+            mode="markers+text",
+            marker={"symbol": "square", "size": 30, "color": "red", "angle": [angle_m2]},
+            text=["m2"],
+            name="m2"
+        ),
         go.Scatter(x=[0], y=[y_cm[i]], **frames_dict["center_of_mass"]),
         go.Scatter(x=[x1[i], x2[i]], y=[y1[i], 0], **frames_dict["massless_rigid_rod"]),
     ]
@@ -175,14 +193,13 @@ for i in range(n_points):
                         "arrowhead": 2,
                         "arrowsize": 1,
                         "arrowwidth": 2,
-                        "ax": dx * 100,
-                        "ay": dy * 100,
+                        "ax": dx * 80,
+                        "ay": dy * 80,
                     }
                 ]
             ),
         )
     )
-
 
 # Create the figure
 fig = go.Figure(
@@ -261,5 +278,4 @@ fig.update_layout(
         )
     ],
 )
-
 fig.show()
