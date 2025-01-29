@@ -12,7 +12,7 @@ x1 = -b * np.sin(t)
 y1 = a * np.cos(t)
 
 # Generate m2 frictionless back-and-forth points
-x2 = b * np.sin(t) 
+x2 = b * np.sin(t)
 
 # Create frames for animation
 frames = []
@@ -103,7 +103,7 @@ fig.update_layout(
                     "args": [
                         None,
                         {
-                            "frame": {"duration": n_points/2, "redraw": True},
+                            "frame": {"duration": n_points / 2, "redraw": True},
                             "fromcurrent": True,
                             "transition": {"duration": 0},
                         },
