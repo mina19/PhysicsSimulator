@@ -26,20 +26,21 @@ def create_none_defaultdict():
 frames_dict = defaultdict(create_none_defaultdict)
 initial_frames_dict = defaultdict(create_none_defaultdict)
 
+# Initial frames dictionary
 initial_frames_dict["frictionless_rail"].update({
     "x": [-b * 1.5, b * 1.5],
     "y": [0, 0],
     "mode": "lines",
-    "color": "black",
-    "width": 3
+    "line": {"color": "black", "width": 3},
+    "name": "frictionless rail"
 })
 
 initial_frames_dict["m1_ellipse"].update({
     "x": x1,
     "y": y1,
     "mode": "lines",
-    "color": "gray",
-    "width": 2
+    "line": {"color": "gray", "width": 2},
+    "name": "m1 path"
 })
 
 initial_frames_dict["m1"].update({
@@ -47,7 +48,8 @@ initial_frames_dict["m1"].update({
     "y": [y1[0]],
     "mode": "markers+text",
     "marker": {"symbol": "square", "size": 30, "color": "blue"},
-    "text": ["m1"]
+    "text": ["m1"],
+    "name": "m1"
 })
 
 initial_frames_dict["m2"].update({
@@ -55,7 +57,8 @@ initial_frames_dict["m2"].update({
     "y": [0],
     "mode": "markers+text",
     "marker": {"symbol": "square", "size": 30, "color": "red"},
-    "text": ["m2"]
+    "text": ["m2"],
+    "name": "m2"
 })
 
 initial_frames_dict["center_of_mass"].update({
@@ -63,20 +66,22 @@ initial_frames_dict["center_of_mass"].update({
     "y": [y_cm[0]],
     "mode": "markers+text",
     "marker": {"symbol": "circle", "size": 30, "color": "black"},
-    "text": ["cm"]
+    "text": ["cm"],
+    "name": "center of mass"
 })
 
 initial_frames_dict["massless_rigid_rod"].update({
     "x": [x1[0], x2[0]],
     "y": [y1[0], 0],
     "mode": "lines",
-    "line": {"color": "black", "width": 1, "dash": "dot"}
+    "line": {"color": "black", "width": 1, "dash": "dot"},
+    "name": "massless rigid rod"
 })
 
-# Define static properties that don't change with frame index
+# Frames dictionary
 frames_dict["frictionless_rail"].update({
     "mode": "lines",
-    "line": dict(color="black", width=3),
+    "line": {"color": "black", "width": 3},
     "name": "frictionless rail"
 })
 
@@ -84,37 +89,37 @@ frames_dict["m1_path"].update({
     "x": x1,
     "y": y1,
     "mode": "lines",
-    "line": dict(color="gray", width=2),
+    "line": {"color": "gray", "width": 2},
     "name": "m1 path"
 })
 
 frames_dict["m1"].update({
     "mode": "markers+text",
-    "marker": dict(symbol="square", size=30, color="blue"),
+    "marker": {"symbol": "square", "size": 30, "color": "blue"},
     "text": ["m1"],
-    "textfont": dict(color="white"),
+    "textfont": {"color": "white"},
     "name": "m1"
 })
 
 frames_dict["m2"].update({
     "mode": "markers+text",
-    "marker": dict(symbol="square", size=30, color="red"),
+    "marker": {"symbol": "square", "size": 30, "color": "red"},
     "text": ["m2"],
-    "textfont": dict(color="white"),
+    "textfont": {"color": "white"},
     "name": "m2"
 })
 
 frames_dict["cm"].update({
     "mode": "markers+text",
-    "marker": dict(symbol="circle", size=30, color="black"),
+    "marker": {"symbol": "circle", "size": 30, "color": "black"},
     "text": ["cm"],
-    "textfont": dict(color="white"),
+    "textfont": {"color": "white"},
     "name": "cm"
 })
 
 frames_dict["rod"].update({
     "mode": "lines",
-    "line": dict(color="black", width=1, dash="dot"),
+    "line": {"color": "black", "width": 1, "dash": "dot"},
     "name": "massless rigid rod"
 })
 
