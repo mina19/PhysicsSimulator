@@ -14,19 +14,30 @@ y1 = a * np.cos(t)
 # Generate m2 frictionless back-and-forth points
 x2 = b * np.sin(t)
 
+# Generate center of mass
+y_cm = y1 / 2
+
 # Create frames for animation
 frames = []
 for i in range(n_points):
     frames.append(
         go.Frame(
             data=[
+                # horizontal axis
+                go.Scatter(
+                    x=[-b * 1.5, b * 1.5],
+                    y=[0, 0],
+                    mode="lines",
+                    line=dict(color="black", width=3),
+                    name="frictionless rail",
+                ),
                 # static ellipse
                 go.Scatter(
                     x=x1,
                     y=y1,
                     mode="lines",
                     line=dict(color="gray", width=2),
-                    name="Path",
+                    name="m1 path",
                 ),
                 # m1
                 go.Scatter(
@@ -48,6 +59,24 @@ for i in range(n_points):
                     textfont=dict(color="white"),
                     name="m2",
                 ),
+                # center of mass
+                go.Scatter(
+                    x=[0] * n_points,
+                    y=[y_cm[i]],
+                    mode="markers+text",
+                    marker=dict(symbol="circle", size=30, color="black"),
+                    text=["cm"],
+                    textfont=dict(color="white"),
+                    name="cm",
+                ),
+                # rod
+                go.Scatter(
+                    x=[x1[i], x2[i]],
+                    y=[y1[i], 0],
+                    mode="lines",
+                    line=dict(color="black", width=1, dash="dot"),
+                    name="massless rigid rod",
+                ),
             ]
         )
     )
@@ -55,11 +84,19 @@ for i in range(n_points):
 # Create the figure
 fig = go.Figure(
     data=[
-        # Initial ellipse path
+        # horizontal axis
+        go.Scatter(
+            x=[-b * 1.5, b * 1.5],
+            y=[0, 0],
+            mode="lines",
+            line=dict(color="black", width=3),
+            name="frictionless rail",
+        ),
+        # initial ellipse path
         go.Scatter(
             x=x1, y=y1, mode="lines", line=dict(color="gray", width=2), name="Path"
         ),
-        # Initial m1
+        # initial m1
         go.Scatter(
             x=[x1[0]],
             y=[y1[0]],
@@ -69,7 +106,7 @@ fig = go.Figure(
             textfont=dict(color="white"),
             name="m1",
         ),
-        # Initial m2
+        # initial m2
         go.Scatter(
             x=[x2[0]],
             y=[0],
@@ -78,6 +115,24 @@ fig = go.Figure(
             text=["m2"],
             textfont=dict(color="white"),
             name="m2",
+        ),
+        # initial center of mass
+        go.Scatter(
+            x=[0],
+            y=[y_cm[0]],
+            mode="markers+text",
+            marker=dict(symbol="circle", size=30, color="black"),
+            text=["cm"],
+            textfont=dict(color="white"),
+            name="CM",
+        ),
+        # initial rod
+        go.Scatter(
+            x=[x1[0], x2[0]],
+            y=[y1[0], 0],
+            mode="lines",
+            line=dict(color="black", width=1, dash="dot"),
+            name="massless rigid rod",
         ),
     ],
     frames=frames,
