@@ -1,6 +1,7 @@
+from collections import defaultdict
+
 import numpy as np
 import plotly.graph_objects as go
-from collections import defaultdict
 
 # Parameters for m1 ellipse
 a = 2  # semi-major axis
@@ -94,11 +95,7 @@ initial_frames_dict["massless_rigid_rod"].update(
 
 # Frames dictionary
 frames_dict["frictionless_rail"].update(
-    {
-        "mode": "lines",
-        "line": {"color": "black", "width": 3},
-        "name": "frictionless rail",
-    }
+    {k: initial_frames_dict["frictionless_rail"][k] for k in ["mode", "line", "name"]}
 )
 
 frames_dict["m1_path"].update(
@@ -113,40 +110,27 @@ frames_dict["m1_path"].update(
 
 frames_dict["m1"].update(
     {
-        "mode": "markers+text",
-        "marker": {"symbol": "square", "size": 30, "color": "blue"},
-        "text": ["m1"],
-        "textfont": {"color": "white"},
-        "name": "m1",
+        k: initial_frames_dict["m1"][k]
+        for k in ["mode", "marker", "text", "textfont", "name"]
     }
 )
 
 frames_dict["m2"].update(
     {
-        "mode": "markers+text",
-        "marker": {"symbol": "square", "size": 30, "color": "red"},
-        "text": ["m2"],
-        "textfont": {"color": "white"},
-        "name": "m2",
+        k: initial_frames_dict["m2"][k]
+        for k in ["mode", "marker", "text", "textfont", "name"]
     }
 )
 
-frames_dict["cm"].update(
+frames_dict["center_of_mass"].update(
     {
-        "mode": "markers+text",
-        "marker": {"symbol": "circle", "size": 30, "color": "black"},
-        "text": ["cm"],
-        "textfont": {"color": "white"},
-        "name": "cm",
+        k: initial_frames_dict["center_of_mass"][k]
+        for k in ["mode", "marker", "text", "textfont", "name"]
     }
 )
 
 frames_dict["massless_rigid_rod"].update(
-    {
-        "mode": "lines",
-        "line": {"color": "black", "width": 1, "dash": "dot"},
-        "name": "massless rigid rod",
-    }
+    {k: initial_frames_dict["massless_rigid_rod"][k] for k in ["mode", "line", "name"]}
 )
 
 # Create frames
@@ -159,7 +143,7 @@ for i in range(n_points):
         # Dynamic elements
         go.Scatter(x=[x1[i]], y=[y1[i]], **frames_dict["m1"]),
         go.Scatter(x=[x2[i]], y=[0], **frames_dict["m2"]),
-        go.Scatter(x=[0], y=[y_cm[i]], **frames_dict["cm"]),
+        go.Scatter(x=[0], y=[y_cm[i]], **frames_dict["center_of_mass"]),
         go.Scatter(x=[x1[i], x2[i]], y=[y1[i], 0], **frames_dict["massless_rigid_rod"]),
     ]
     frames.append(go.Frame(data=frame_data))
