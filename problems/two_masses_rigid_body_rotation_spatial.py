@@ -133,9 +133,8 @@ frames_dict["massless_rigid_rod"].update(
     {k: initial_frames_dict["massless_rigid_rod"][k] for k in ["mode", "line", "name"]}
 )
 
-# Create frames
-frames = []
-for i in range(n_points):
+
+def tension_arrow(i):
     # Calculate the direction vector of the rod
     dx = x1[i] - x2[i]
     dy = -y1[i]  # since y2 is always 0
@@ -149,7 +148,12 @@ for i in range(n_points):
     # Calculate the start point of the arrow
     start_x = x1[i] - 1.1 * dx
     start_y = y1[i] + 1.1 * dy
+    return {"start_x": start_x, "start_y": start_y, "dx": dx, "dy": dy}
 
+
+# Create frames
+frames = []
+for i in range(n_points):
     # Calculate angles for m1
     angle_m1 = -np.degrees(t[i])
     angle_m2 = -np.degrees(np.arctan2(-y1[i], x2[i] - x1[i]))
@@ -194,8 +198,8 @@ for i in range(n_points):
             layout=go.Layout(
                 annotations=[
                     {
-                        "x": start_x,  # Start point is away from m1
-                        "y": start_y,
+                        "x": tension_arrow(i)["start_x"],
+                        "y": tension_arrow(i)["start_y"],
                         "xref": "x",
                         "yref": "y",
                         "text": "T",
@@ -203,8 +207,8 @@ for i in range(n_points):
                         "arrowhead": 2,
                         "arrowsize": 1,
                         "arrowwidth": 2,
-                        "ax": dx * 80,
-                        "ay": dy * 80,
+                        "ax": tension_arrow(i)["dx"] * 80,
+                        "ay": tension_arrow(i)["dy"] * 80,
                     }
                 ]
             ),
@@ -283,6 +287,21 @@ fig.update_layout(
                     ],
                 },
             ],
+        }
+    ],
+    annotations=[
+        {
+            "x": tension_arrow(0)["start_x"],
+            "y": tension_arrow(0)["start_y"],
+            "xref": "x",
+            "yref": "y",
+            "text": "T",
+            "showarrow": True,
+            "arrowhead": 2,
+            "arrowsize": 1,
+            "arrowwidth": 2,
+            "ax": tension_arrow(0)["dx"] * 80,
+            "ay": tension_arrow(0)["dy"] * 80,
         }
     ],
 )
