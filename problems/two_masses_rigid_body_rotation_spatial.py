@@ -219,11 +219,10 @@ fig = go.Figure(
 )
 
 
-# Add a text trace for the signature
 fig.add_trace(
     go.Scatter(
-        x=[-b * 3.25],  # Adjust position as needed
-        y=[-a * 1.1],   # Adjust position as needed
+        x=[-b * 3.25],  
+        y=[-a * 1.1],
         mode='text',
         text=["Created by Min-A Cho Zeno, PhD"],
         showlegend=False,
@@ -231,7 +230,6 @@ fig.add_trace(
     )
 )
 
-# Keep your existing layout settings
 fig.update_layout(
     font=dict(family="Arial", size=16, color="black"),
     title="Rigid Body Geometrical Analysis: Two Masses + Rod System",
