@@ -219,63 +219,62 @@ fig = go.Figure(
 )
 
 
-# Update layout
+# Add a text trace for the signature
+fig.add_trace(
+    go.Scatter(
+        x=[-b * 3.25],  # Adjust position as needed
+        y=[-a * 1.1],   # Adjust position as needed
+        mode='text',
+        text=["Created by Min-A Cho Zeno, PhD"],
+        showlegend=False,
+        textfont=dict(size=12)
+    )
+)
+
+# Keep your existing layout settings
 fig.update_layout(
     font=dict(family="Arial", size=16, color="black"),
-    title="Two Masses Rigid Body Rotation Problem Simulation",
+    title="Rigid Body Geometrical Analysis: Two Masses + Rod System",
     xaxis=dict(title="x", range=[-b * 0.5, b * 0.5]),
     yaxis=dict(title="y", range=[-a * 1.2, a * 1.2], scaleanchor="x", scaleratio=1),
     showlegend=False,
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    updatemenus=[
-        {
-            "type": "buttons",
-            "showactive": False,
-            "x": 0.02,
-            "xanchor": "left",
-            "y": 1.0,
-            "yanchor": "top",
-            "buttons": [
-                {
-                    "label": "Play",
-                    "method": "animate",
-                    "args": [
-                        None,
-                        {
-                            "frame": {"duration": 40, "redraw": False},
-                            "fromcurrent": True,
-                            "mode": "immediate",
-                            "transition": {"duration": 0},
-                        },
-                    ],
-                },
-                {
-                    "label": "Pause",
-                    "method": "animate",
-                    "args": [
-                        [None],
-                        {
-                            "frame": {"duration": 0, "redraw": False},
-                            "mode": "immediate",
-                            "transition": {"duration": 0},
-                        },
-                    ],
-                },
-            ],
-        }
-    ],
-    annotations=[
-        dict(
-            text="Created by Min-A Cho Zeno, PhD",
-            xref="x",
-            yref="y",
-            x=-b * 4,
-            y=-a * 1.1,
-            showarrow=False,
-            font=dict(size=12),
-            xanchor="left",
-        )
-    ],
+    updatemenus=[{
+        "type": "buttons",
+        "showactive": False,
+        "x": 0.02,
+        "xanchor": "left",
+        "y": 1.0,
+        "yanchor": "top",
+        "buttons": [
+            {
+                "label": "Play",
+                "method": "animate",
+                "args": [
+                    None,
+                    {
+                        "frame": {"duration": 40, "redraw": False},
+                        "fromcurrent": True,
+                        "mode": "immediate",
+                        "transition": {"duration": 0},
+                    },
+                ],
+            },
+            {
+                "label": "Pause",
+                "method": "animate",
+                "args": [
+                    [None],
+                    {
+                        "frame": {"duration": 0, "redraw": False},
+                        "mode": "immediate",
+                        "transition": {"duration": 0},
+                    },
+                ],
+            },
+        ],
+    }]
 )
+
 fig.show()
