@@ -147,11 +147,11 @@ for i in range(n_points):
     dy = scale * dy / magnitude
 
     # Calculate the start point of the arrow
-    start_x = x1[i] - 1.1 * dx 
+    start_x = x1[i] - 1.1 * dx
     start_y = y1[i] + 1.1 * dy
 
     # Calculate angles for m1
-    angle_m1 = -np.degrees(t[i]) 
+    angle_m1 = -np.degrees(t[i])
     angle_m2 = -np.degrees(np.arctan2(-y1[i], x2[i] - x1[i]))
 
     frame_data = [
@@ -160,20 +160,30 @@ for i in range(n_points):
         go.Scatter(**frames_dict["m1_path"]),
         # Dynamic elements
         go.Scatter(
-            x=[x1[i]], 
-            y=[y1[i]], 
+            x=[x1[i]],
+            y=[y1[i]],
             mode="markers+text",
-            marker={"symbol": "square", "size": 30, "color": "blue", "angle": [angle_m1]},
+            marker={
+                "symbol": "square",
+                "size": 30,
+                "color": "blue",
+                "angle": [angle_m1],
+            },
             text=["m1"],
-            name="m1"
+            name="m1",
         ),
         go.Scatter(
-            x=[x2[i]], 
-            y=[0], 
+            x=[x2[i]],
+            y=[0],
             mode="markers+text",
-            marker={"symbol": "square", "size": 30, "color": "red", "angle": [angle_m2]},
+            marker={
+                "symbol": "square",
+                "size": 30,
+                "color": "red",
+                "angle": [angle_m2],
+            },
             text=["m2"],
-            name="m2"
+            name="m2",
         ),
         go.Scatter(x=[0], y=[y_cm[i]], **frames_dict["center_of_mass"]),
         go.Scatter(x=[x1[i], x2[i]], y=[y1[i], 0], **frames_dict["massless_rigid_rod"]),
@@ -221,12 +231,12 @@ fig = go.Figure(
 
 fig.add_trace(
     go.Scatter(
-        x=[-b * 3.25],  
+        x=[-b * 3.25],
         y=[-a * 1.1],
-        mode='text',
+        mode="text",
         text=["Created by Min-A Cho Zeno, PhD"],
         showlegend=False,
-        textfont=dict(size=12)
+        textfont=dict(size=12),
     )
 )
 
@@ -238,41 +248,43 @@ fig.update_layout(
     showlegend=False,
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    updatemenus=[{
-        "type": "buttons",
-        "showactive": False,
-        "x": 0.02,
-        "xanchor": "left",
-        "y": 1.0,
-        "yanchor": "top",
-        "buttons": [
-            {
-                "label": "Play",
-                "method": "animate",
-                "args": [
-                    None,
-                    {
-                        "frame": {"duration": 40, "redraw": False},
-                        "fromcurrent": True,
-                        "mode": "immediate",
-                        "transition": {"duration": 0},
-                    },
-                ],
-            },
-            {
-                "label": "Pause",
-                "method": "animate",
-                "args": [
-                    [None],
-                    {
-                        "frame": {"duration": 0, "redraw": False},
-                        "mode": "immediate",
-                        "transition": {"duration": 0},
-                    },
-                ],
-            },
-        ],
-    }]
+    updatemenus=[
+        {
+            "type": "buttons",
+            "showactive": False,
+            "x": 0.02,
+            "xanchor": "left",
+            "y": 1.0,
+            "yanchor": "top",
+            "buttons": [
+                {
+                    "label": "Play",
+                    "method": "animate",
+                    "args": [
+                        None,
+                        {
+                            "frame": {"duration": 40, "redraw": False},
+                            "fromcurrent": True,
+                            "mode": "immediate",
+                            "transition": {"duration": 0},
+                        },
+                    ],
+                },
+                {
+                    "label": "Pause",
+                    "method": "animate",
+                    "args": [
+                        [None],
+                        {
+                            "frame": {"duration": 0, "redraw": False},
+                            "mode": "immediate",
+                            "transition": {"duration": 0},
+                        },
+                    ],
+                },
+            ],
+        }
+    ],
 )
 
 fig.show()
