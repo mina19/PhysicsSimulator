@@ -31,27 +31,27 @@ tension_magnitude = cs(t)
 
 def tension_arrow(i):
     if tension_magnitude[i] > 0:
-        # Calculate the direction vector of the rod
         dx = x1[i] - x2[i]
-        dy = -y1[i]  # since y2 is always 0
+        dy = -y1[i]
     else:
         dx = x2[i] - x1[i]
         dy = y1[i]
+
     # Normalize and scale the vector
     magnitude = np.sqrt(dx**2 + dy**2)
-    scale = 0.5 * np.abs(tension_magnitude[i])
+    # scale = 0.5 * np.abs(tension_magnitude[i])
+    scale = 0.5
     dx = scale * dx / magnitude
     dy = scale * dy / magnitude
 
     # Calculate the start point of the arrow
-    start_x = x1[i]
-    start_y = y1[i]
+    start_x = x1[i] - dx
+    start_y = y1[i] + dy
     return {
         "start_x": start_x,
         "start_y": start_y,
         "dx": dx,
         "dy": dy,
-        "tension_magnitude": tension_magnitude[i],
         "ax": dx * 80,
         "ay": dy * 80,
     }
@@ -222,7 +222,7 @@ for i in range(n_points):
                         "y": tension_arrow(i)["start_y"],
                         "xref": "x",
                         "yref": "y",
-                        "text": f"T: {tension_arrow(i)["tension_magnitude"]}",
+                        "text": "T",
                         "showarrow": True,
                         "arrowhead": 2,
                         "arrowsize": 1,
