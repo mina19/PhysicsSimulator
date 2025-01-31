@@ -1,4 +1,5 @@
 from collections import defaultdict
+from scipy.interpolate import CubicSpline
 
 import numpy as np
 import plotly.graph_objects as go
@@ -18,6 +19,42 @@ x2 = b * np.sin(t)
 
 # Generate center of mass
 y_cm = y1 / 2
+
+# Create points for checking
+t_check = np.array([0, np.pi / 2, np.pi, 3 * np.pi / 2, 2 * np.pi])
+y_check = np.array([-1, 1, 9, 1, -1])
+
+# Create cubic spline interpolation
+cs = CubicSpline(t_check, y_check, bc_type="periodic")
+tension_magnitude = cs(t)
+
+
+def tension_arrow(i):
+    if tension_magnitude[i] > 0:
+        # Calculate the direction vector of the rod
+        dx = x1[i] - x2[i]
+        dy = -y1[i]  # since y2 is always 0
+    else:
+        dx = x2[i] - x1[i]
+        dy = y1[i]
+    # Normalize and scale the vector
+    magnitude = np.sqrt(dx**2 + dy**2)
+    scale = 0.5 * np.abs(tension_magnitude[i])
+    dx = scale * dx / magnitude
+    dy = scale * dy / magnitude
+
+    # Calculate the start point of the arrow
+    start_x = x1[i]
+    start_y = y1[i]
+    return {
+        "start_x": start_x,
+        "start_y": start_y,
+        "dx": dx,
+        "dy": dy,
+        "tension_magnitude": tension_magnitude[i],
+        "ax": dx * 80,
+        "ay": dy * 80,
+    }
 
 
 # Create the nested defaultdict structure
@@ -134,23 +171,6 @@ frames_dict["massless_rigid_rod"].update(
 )
 
 
-def tension_arrow(i):
-    # Calculate the direction vector of the rod
-    dx = x1[i] - x2[i]
-    dy = -y1[i]  # since y2 is always 0
-
-    # Normalize and scale the vector
-    magnitude = np.sqrt(dx**2 + dy**2)
-    scale = 0.5
-    dx = scale * dx / magnitude
-    dy = scale * dy / magnitude
-
-    # Calculate the start point of the arrow
-    start_x = x1[i] - 1.1 * dx
-    start_y = y1[i] + 1.1 * dy
-    return {"start_x": start_x, "start_y": start_y, "dx": dx, "dy": dy}
-
-
 # Create frames
 frames = []
 for i in range(n_points):
@@ -202,13 +222,13 @@ for i in range(n_points):
                         "y": tension_arrow(i)["start_y"],
                         "xref": "x",
                         "yref": "y",
-                        "text": "T",
+                        "text": f"T: {tension_arrow(i)["tension_magnitude"]}",
                         "showarrow": True,
                         "arrowhead": 2,
                         "arrowsize": 1,
                         "arrowwidth": 2,
-                        "ax": tension_arrow(i)["dx"] * 80,
-                        "ay": tension_arrow(i)["dy"] * 80,
+                        "ax": tension_arrow(i)["ax"],
+                        "ay": tension_arrow(i)["ay"],
                     }
                 ]
             ),
@@ -246,7 +266,7 @@ fig.add_trace(
 
 fig.update_layout(
     font=dict(family="Arial", size=16, color="black"),
-    title="Rigid Body Geometrical Analysis: Two Masses + Rod System",
+    title="Rigid Body Spatial Analysis: Two Masses + Rod System",
     xaxis=dict(title="x", range=[-b * 0.5, b * 0.5]),
     yaxis=dict(title="y", range=[-a * 1.2, a * 1.2], scaleanchor="x", scaleratio=1),
     showlegend=False,
@@ -267,7 +287,7 @@ fig.update_layout(
                     "args": [
                         None,
                         {
-                            "frame": {"duration": 40, "redraw": False},
+                            "frame": {"duration": 100, "redraw": False},
                             "fromcurrent": True,
                             "mode": "immediate",
                             "transition": {"duration": 0},
