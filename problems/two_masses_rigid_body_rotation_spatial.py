@@ -23,7 +23,7 @@ y_cm = y1 / 2
 # Create points for checking
 t_check = np.array([0, np.pi / 2, np.pi, 3 * np.pi / 2, 2 * np.pi])
 # Not to scale. At the bottom the tension should be 9.
-y_check = np.array([-1, 1, 4, 1, -1]) 
+y_check = np.array([-1, 1, 4, 1, -1])
 
 # Create cubic spline interpolation
 cs = CubicSpline(t_check, y_check, bc_type="periodic")
@@ -33,22 +33,23 @@ tension_magnitude = cs(t)
 def tension_arrow(i):
     dx = x2[i] - x1[i]
     dy = y1[i]
-        
+
     # Normalize and scale the vector
     magnitude = np.sqrt(dx**2 + dy**2)
-    scale = - 0.4 * tension_magnitude[i]
+    scale = -0.4 * tension_magnitude[i]
     dx = scale * dx / magnitude
     dy = scale * dy / magnitude
 
     start_x = x1[i]
     start_y = y1[i]
-    
+
     return {
         "start_x": start_x,
         "start_y": start_y,
         "ax": dx * 80,
         "ay": dy * 80,
     }
+
 
 # Create the nested defaultdict structure
 def create_none_defaultdict():
@@ -246,12 +247,17 @@ fig = go.Figure(
 
 fig.add_trace(
     go.Scatter(
-        x=[-b * 3.25],
-        y=[-a * 1.1],
+        x=[-b * 3.9],
+        y=[-a],
         mode="text",
-        text=["Created by Min-A Cho Zeno, PhD"],
+        text=[
+            "Created by Min-A Cho Zeno, PhD"
+            "<br>Note: This is a spatial visualization only. Tension arrows are not drawn to scale."
+            "<br>True tension magnitude at the bottom should be 9x that at the horizontal and top positions."
+        ],
         showlegend=False,
         textfont=dict(size=12),
+        textposition="middle right"
     )
 )
 
