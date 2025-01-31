@@ -39,8 +39,7 @@ def tension_arrow(i):
 
     # Normalize and scale the vector
     magnitude = np.sqrt(dx**2 + dy**2)
-    # scale = 0.5 * np.abs(tension_magnitude[i])
-    scale = 0.5
+    scale = 0.3 * np.abs(tension_magnitude[i])
     dx = scale * dx / magnitude
     dy = scale * dy / magnitude
 
@@ -50,10 +49,8 @@ def tension_arrow(i):
     return {
         "start_x": start_x,
         "start_y": start_y,
-        "dx": dx,
-        "dy": dy,
-        "ax": dx * 80,
-        "ay": dy * 80,
+        "ax": dx * 95,
+        "ay": dy * 95,
     }
 
 
@@ -221,8 +218,6 @@ for i in range(n_points):
                         "x": tension_arrow(i)["start_x"],
                         "y": tension_arrow(i)["start_y"],
                         "xref": "x",
-                        "yref": "y",
-                        "text": "T",
                         "showarrow": True,
                         "arrowhead": 2,
                         "arrowsize": 1,
@@ -320,8 +315,8 @@ fig.update_layout(
             "arrowhead": 2,
             "arrowsize": 1,
             "arrowwidth": 2,
-            "ax": tension_arrow(0)["dx"] * 80,
-            "ay": tension_arrow(0)["dy"] * 80,
+            "ax": tension_arrow(0)["ax"],
+            "ay": tension_arrow(0)["ay"],
         }
     ],
 )
