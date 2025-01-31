@@ -30,28 +30,23 @@ tension_magnitude = cs(t)
 
 
 def tension_arrow(i):
-    if tension_magnitude[i] > 0:
-        dx = x2[i] - x1[i]  # Direction toward m2
-        dy = y1[i]          # Direction toward m2
-    else:
-        dx = x2[i] - x1[i]  # Direction outward
-        dy = y1[i]
+    dx = x2[i] - x1[i]
+    dy = y1[i]
         
     # Normalize and scale the vector
     magnitude = np.sqrt(dx**2 + dy**2)
-    scale = 0.3 * np.abs(tension_magnitude[i])
+    scale = - 0.1 * tension_magnitude[i]
     dx = scale * dx / magnitude
     dy = scale * dy / magnitude
-    
-    # ALWAYS start at m1 (tail follows the ellipse)
+
     start_x = x1[i]
     start_y = y1[i]
     
     return {
         "start_x": start_x,
         "start_y": start_y,
-        "ax": dx * 95,
-        "ay": dy * 95,
+        "ax": dx * 80,
+        "ay": dy * 80,
     }
 
 # Create the nested defaultdict structure
