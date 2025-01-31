@@ -22,7 +22,8 @@ y_cm = y1 / 2
 
 # Create points for checking
 t_check = np.array([0, np.pi / 2, np.pi, 3 * np.pi / 2, 2 * np.pi])
-y_check = np.array([-1, 1, 9, 1, -1])
+# Not to scale. At the bottom the tension should be 9.
+y_check = np.array([-1, 1, 4, 1, -1]) 
 
 # Create cubic spline interpolation
 cs = CubicSpline(t_check, y_check, bc_type="periodic")
@@ -35,7 +36,7 @@ def tension_arrow(i):
         
     # Normalize and scale the vector
     magnitude = np.sqrt(dx**2 + dy**2)
-    scale = - 0.1 * tension_magnitude[i]
+    scale = - 0.4 * tension_magnitude[i]
     dx = scale * dx / magnitude
     dy = scale * dy / magnitude
 
@@ -84,7 +85,7 @@ initial_frames_dict["m1"].update(
         "x": [x1[0]],
         "y": [y1[0]],
         "mode": "markers+text",
-        "marker": {"symbol": "square", "size": 30, "color": "blue"},
+        "marker": {"symbol": "square", "size": 30, "color": "blue", "opacity": 0.6},
         "text": ["m1"],
         "name": "m1",
     }
@@ -95,7 +96,7 @@ initial_frames_dict["m2"].update(
         "x": [x2[0]],
         "y": [0],
         "mode": "markers+text",
-        "marker": {"symbol": "square", "size": 30, "color": "red"},
+        "marker": {"symbol": "square", "size": 30, "color": "red", "opacity": 0.6},
         "text": ["m2"],
         "name": "m2",
     }
@@ -140,14 +141,14 @@ frames_dict["m1_path"].update(
 frames_dict["m1"].update(
     {
         k: initial_frames_dict["m1"][k]
-        for k in ["mode", "marker", "text", "textfont", "name"]
+        for k in ["mode", "marker", "text", "textfont", "name", "opacity"]
     }
 )
 
 frames_dict["m2"].update(
     {
         k: initial_frames_dict["m2"][k]
-        for k in ["mode", "marker", "text", "textfont", "name"]
+        for k in ["mode", "marker", "text", "textfont", "name", "opacity"]
     }
 )
 
@@ -214,7 +215,7 @@ for i in range(n_points):
                         "y": tension_arrow(i)["start_y"],
                         "xref": "x",
                         "showarrow": True,
-                        "arrowhead": 2,
+                        "arrowhead": 1,
                         "arrowsize": 1,
                         "arrowwidth": 2,
                         "ax": tension_arrow(i)["ax"],
